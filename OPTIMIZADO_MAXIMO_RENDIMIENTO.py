@@ -33,6 +33,8 @@ PROMPT = """Analiza la imagen. Si NO es un comprobante real de transferencia, de
 
 Si SÍ es un documento válido (transferencia, depósito o factura de sistema POS como Kirios/KinetPos), extrae los datos y devuelve ÚNICAMENTE la siguiente estructura JSON exacta, reemplazando los valores. 
 
+Si intervienen servicios corresponsales (como 'Mi Vecino', 'Pichincha Mi Vecino', 'Servipagos'), trátalos como el 'banco_origen' o 'banco_destino' según corresponda la transacción. No sobrepienses la diferencia entre la papeleta y el recibo del sistema; unifica los datos que concuerden
+
 Reglas estrictas:
 1. Formato: No agregues ningún texto introductorio, conclusiones, ni bloques markdown (```json). Devuelve SOLO el texto del JSON.
 2. Facturas: Si es una factura o recibo de caja, pon el emisor en "banco_origen" o en el remitente, y adapta los datos que existan.
@@ -181,9 +183,9 @@ def procesar_y_enviar(image_url, sesion):
             "stream": False,
             "images": [b64],
             "options": {
-                "temperature": 0.0,      # Sin variación, respuestas deterministas
+                "temperature": 0.1,      # Sin variación, respuestas deterministas
                 "num_ctx": 32768,        # Contexto ampliado
-                "num_predict": 6144,     # Más espacio para completar JSON
+                "num_predict": 8192,     # Más espacio para completar JSON
                 "top_k": 40,             # Top-k sampling
                 "top_p": 0.9,            # Nucleus sampling
                 "repeat_penalty": 1.0    # Sin penalización a repetición
