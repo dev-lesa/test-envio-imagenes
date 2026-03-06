@@ -17,8 +17,8 @@ HEADERS = {
 # Opcional: si tu API espera el prefijo data:image/xxx;base64, pon True
 INCLUIR_PREFIJO_DATAURI = False
 
-CSV_PATH = r"C:\Users\Luis\Downloads\imagenes.csv"  # archivo con columna image_url
-OUTPUT_DIR = r"C:\Users\Luis\Downloads\images_qwen3-5"
+CSV_PATH = r"/home/desarrollo/Descargas/image_urls.csv"  # archivo con columna image_url
+OUTPUT_DIR = r"/home/desarrollo/Descargas/qwen3-5-4b"
 
 PROMPT = PROMPT = """Analiza la imagen de forma estrictamente lógica.
 
@@ -68,7 +68,6 @@ def guess_mime(url, content=None):
     mime, _ = mimetypes.guess_type(path)
     if mime:
         return mime
-    # fallback simple
     return "application/octet-stream"
 
 def procesar_y_enviar(image_url):
@@ -108,7 +107,6 @@ def procesar_y_enviar(image_url):
         # Limpiar posibles bloques markdown (```json ... ```)
         ia_texto = ia_texto.strip("```json").strip("```").strip()
         
-        # Convertir el texto de la IA a un diccionario real de Python
         try:
             datos_json = json.loads(ia_texto)
         except json.JSONDecodeError:
